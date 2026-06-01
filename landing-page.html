@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al Aseel Trading Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+[data-theme="dark"] {
+  --bg:      #0d0d0d;
+  --surface: #141414;
+  --border:  #222;
+  --border2: #333;
+  --accent:  #f5c518;
+  --accent2: #e6b800;
+  --text:    #f0f0f0;
+  --text2:   #ffffff;
+  --muted:   #666;
+  --shadow:  0 2px 20px rgba(0,0,0,.5);
+  --shadow2: 0 8px 40px rgba(0,0,0,.7);
+}
+[data-theme="light"] {
+  --bg:      #f5f5f0;
+  --surface: #ffffff;
+  --border:  #e0e0d8;
+  --border2: #ccc;
+  --accent:  #c9a000;
+  --accent2: #b38f00;
+  --text:    #1a1a1a;
+  --text2:   #000000;
+  --muted:   #888;
+  --shadow:  0 2px 20px rgba(0,0,0,.08);
+  --shadow2: 0 8px 40px rgba(0,0,0,.15);
+}
+
+html { transition: background .4s; }
+*, *::before, *::after { transition: background-color .3s, border-color .3s, color .3s; }
+
+body {
+  background: var(--bg);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 0 0 64px;
+}
+
+.page {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 16px 0;
+}
+.toggle-wrap {
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; user-select: none;
+}
+.toggle-label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+}
+.toggle-track {
+  width: 42px; height: 23px;
+  background: var(--border2);
+  border-radius: 999px;
+  border: 1.5px solid var(--border2);
+  position: relative;
+}
+.toggle-knob {
+  position: absolute; top: 3px; left: 3px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+[data-theme="light"] .toggle-knob { transform: translateX(19px); }
+.toggle-icon { font-size: 13px; }
+
+/* ── HERO BANNER ── */
+.hero-banner {
+  background: var(--accent);
+  height: 130px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(0,0,0,.04) 18px,
+      rgba(0,0,0,.04) 36px
+    );
+}
+.banner-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.banner-logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: #000;
+  line-height: 1;
+}
+.banner-logo-sub {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(0,0,0,.5);
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* ── AVATAR ── */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -50px;
+  padding-bottom: 24px;
+  position: relative;
+  background: var(--bg);
+}
+.avatar-wrap {
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+.avatar-ring {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  padding: 3px;
+  background: var(--accent);
+  display: block;
+}
+.avatar-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--bg);
+  background: #222;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--accent);
+}
+.avatar-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar-overlay {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .2s;
+}
+.avatar-wrap:hover .avatar-overlay { opacity: 1; }
+.avatar-overlay svg { width: 22px; height: 22px; }
+#photoInput { display: none; }
+
+.nfc-pill {
+  position: absolute; bottom: 0; right: 0;
+  background: var(--accent); color: #000;
+  font-size: 8px; font-weight: 800;
+  letter-spacing: 1.5px; padding: 3px 8px;
+  border-radius: 20px; border: 2px solid var(--bg);
+  text-transform: uppercase;
+}
+
+.biz-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px; letter-spacing: 2px;
+  color: var(--text2); text-align: center;
+  line-height: 1.1; margin-bottom: 6px;
+  padding: 0 16px;
+}
+.biz-tag {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 8px;
+}
+.biz-location {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--muted);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  margin: 0 16px 12px;
+}
+
+/* ── CONTENT AREA ── */
+.content { padding: 0 14px; display: flex; flex-direction: column; gap: 10px; }
+
+/* ── SECTION LABEL ── */
+.label {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); padding: 4px 2px 0;
+}
+
+/* ── CONTACT ── */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.contact-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 12px;
+  text-decoration: none; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.contact-btn:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow2); }
+.contact-btn.full { grid-column: span 2; }
+.cb-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(245,197,24,.1); border: 1px solid rgba(245,197,24,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.cb-text small {
+  display: block; font-size: 9px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2px;
+}
+.cb-text span { font-size: 12px; font-weight: 500; }
+
+/* ── SOCIALS ── */
+.socials-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.social-btn {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 6px 12px;
+  text-decoration: none; display: flex;
+  flex-direction: column; align-items: center; gap: 8px;
+  box-shadow: var(--shadow);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.social-btn:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow2); }
+.social-btn .s-icon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; }
+.social-btn .s-icon img, .social-btn .s-icon svg { width: 30px; height: 30px; }
+.social-btn .s-name {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── ACTION LINKS ── */
+.action-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 18px;
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; color: var(--text);
+  box-shadow: var(--shadow);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.action-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow2); }
+.action-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.action-info { flex: 1; }
+.action-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 3px; color: var(--text2); }
+.action-info p { font-size: 11px; color: var(--muted); }
+.action-arrow { font-size: 18px; color: var(--accent); }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center; padding: 24px 0 0;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.footer-line { width: 50px; height: 1px; background: var(--border2); }
+.footer-text { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="toggle-wrap" onclick="toggleTheme()">
+      <span class="toggle-label" id="toggle-label">Light</span>
+      <div class="toggle-track"><div class="toggle-knob"></div></div>
+      <span class="toggle-icon" id="toggle-icon">☀️</span>
+    </div>
+  </div>
+
+  <!-- HERO BANNER -->
+  <div class="hero-banner">
+    <div class="banner-logo">
+      <div class="banner-logo-text">AL ASEEL</div>
+      <div class="banner-logo-sub">Trading Group</div>
+    </div>
+  </div>
+
+  <!-- AVATAR + INFO -->
+  <div class="avatar-section">
+    <div class="avatar-wrap" onclick="document.getElementById('photoInput').click()">
+      <div class="avatar-ring">
+        <div class="avatar-inner" id="avatarEl">
+          <span>ATG</span>
+          <div class="avatar-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="nfc-pill">NFC</div>
+      <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(event)">
+    </div>
+    <div class="biz-name">Al Aseel Trading Group</div>
+    <div class="biz-tag">Certified Car Agency · Algeria</div>
+    <div class="biz-location">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Guelma, Algeria
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="content">
+
+    <!-- CONTACT -->
+    <div class="label">Contact</div>
+    <div class="contact-grid">
+      <a class="contact-btn" href="tel:+971585031288">
+        <div class="cb-icon">📞</div>
+        <div class="cb-text"><small>Call</small><span>+971 585 031 288</span></div>
+      </a>
+      <a class="contact-btn" href="mailto:support@alaseelcars.com">
+        <div class="cb-icon">✉️</div>
+        <div class="cb-text"><small>Email</small><span>support@alaseelcars.com</span></div>
+      </a>
+      <a class="contact-btn full" href="https://wa.me/+971585031288">
+        <div class="cb-icon" style="background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.25);">
+          <img src="https://cdn.simpleicons.org/whatsapp" width="18" height="18" alt="WhatsApp">
+        </div>
+        <div class="cb-text"><small>WhatsApp</small><span>Message us directly</span></div>
+      </a>
+    </div>
+
+    <!-- SOCIALS -->
+    <div class="label">Follow Us</div>
+    <div class="socials-grid">
+      <a class="social-btn" href="https://wa.me/971585031288" target="_blank">
+        <span class="s-icon"><img src="https://cdn.simpleicons.org/whatsapp" width="30" height="30" alt="WhatsApp"></span>
+        <span class="s-name">WhatsApp</span>
+      </a>
+      <a class="social-btn" href="https://tiktok.com" target="_blank">
+        <span class="s-icon"><img src="https://cdn.simpleicons.org/tiktok" width="30" height="30" alt="TikTok"></span>
+        <span class="s-name">TikTok</span>
+      </a>
+      <a class="social-btn" href="https://youtube.com" target="_blank">
+        <span class="s-icon"><img src="https://cdn.simpleicons.org/youtube" width="30" height="30" alt="YouTube"></span>
+        <span class="s-name">YouTube</span>
+      </a>
+      <a class="social-btn" href="https://facebook.com" target="_blank">
+        <span class="s-icon"><img src="https://cdn.simpleicons.org/facebook" width="30" height="30" alt="Facebook"></span>
+        <span class="s-name">Facebook</span>
+      </a>
+    </div>
+
+    <!-- ACTION LINKS -->
+    <div class="label">Quick Actions</div>
+    <a class="action-card" href="https://al-aseel-trading-group.com/new-car-order" target="_blank">
+      <div class="action-icon" style="background:rgba(245,197,24,.12);">🚗</div>
+      <div class="action-info">
+        <h3>Order a New Car</h3>
+        <p>Browse our catalog & place your order</p>
+      </div>
+      <div class="action-arrow">→</div>
+    </a>
+    <a class="action-card" href="https://al-aseel-trading-group.com/book-call" target="_blank">
+      <div class="action-icon" style="background:rgba(245,197,24,.12);">📅</div>
+      <div class="action-info">
+        <h3>Book a Call</h3>
+        <p>Schedule a call with our team</p>
+      </div>
+      <div class="action-arrow">→</div>
+    </a>
+    <a class="action-card" href="https://al-aseel-trading-group.com/used-cars" target="_blank">
+      <div class="action-icon" style="background:rgba(245,197,24,.12);">🔍</div>
+      <div class="action-info">
+        <h3>Used Cars</h3>
+        <p>Request a used car under 3 years old</p>
+      </div>
+      <div class="action-arrow">→</div>
+    </a>
+    <a class="action-card" href="https://maps.google.com/?q=Guelma,Algeria" target="_blank">
+      <div class="action-icon" style="background:rgba(234,67,53,.1);">📍</div>
+      <div class="action-info">
+        <h3>Our Location</h3>
+        <p>Guelma, Algeria — Open in Maps</p>
+      </div>
+      <div class="action-arrow">→</div>
+    </a>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-line"></div>
+      <div class="footer-text">NFC Card Co.</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  //  ✏️  CUSTOMER CONFIG — EDIT ONLY THIS SECTION
+  // ============================================================
+  const CONFIG = {
+    name:      "Al Aseel Trading Group",
+    phone:     "+971585031288",
+    whatsapp:  "https://wa.me/+971585031288",
+    email:     "support@alaseelcars.com",
+    website:   "https://al-aseel-trading-group.com",
+    instagram: "https://instagram.com/al_aseel_trading_group",
+    tiktok:    "https://tiktok.com/@al.aseel.trading.group",
+    youtube:   "https://youtube.com/@alaseeltradinggroupe",
+    facebook:  "https://facebook.com/share/14dwWUYQbXX",
+    location:  "https://maps.app.goo.gl/TonQv1j9JGoWoAC96?g_st=ic",
+  };
+  // ============================================================
+
+  function handlePhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('avatarEl').innerHTML =
+        `<img src="${ev.target.result}" alt="Profile"><div class="avatar-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('toggle-label').textContent = isDark ? 'Dark' : 'Light';
+    document.getElementById('toggle-icon').textContent  = isDark ? '🌙' : '☀️';
+  }
+</script>
+</body>
+</html>
